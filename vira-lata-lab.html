@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vira-Lata Lab — E-commerce & Digital Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --terracota: #C4622D;
+  --ocre: #D4A017;
+  --areia: #E8C97A;
+  --creme: #F2E0C0;
+  --fundo: #FAF3E6;
+  --cafe: #2B1A0E;
+  --cafe2: #3D2510;
+  --cafe-claro: #7A4A2A;
+  --mato: #B8CC6E;
+  --areiaEsc: #D9C4A0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--fundo);
+  color: var(--cafe);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR CUSTOMIZADO ── */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--terracota);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: multiply;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--terracota);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
+  opacity: 0.5;
+}
+body:hover .cursor { opacity: 1; }
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 3rem;
+  mix-blend-mode: multiply;
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--cafe);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.nav-logo span { color: var(--terracota); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cafe-claro);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--terracota); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left {
+  background: var(--cafe);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5rem 3rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-left::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: var(--terracota);
+  opacity: 0.08;
+  top: -150px; left: -150px;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--terracota);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--creme);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.35s forwards;
+}
+.hero-title .accent { color: var(--terracota); }
+.hero-title .italic {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ocre);
+}
+
+.hero-sub {
+  font-size: 1rem;
+  color: var(--areiaEsc);
+  line-height: 1.65;
+  max-width: 400px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s forwards;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--terracota);
+  color: var(--creme);
+  text-decoration: none;
+  padding: 0.9rem 2rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.25s, transform 0.2s;
+  width: fit-content;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.65s forwards;
+}
+.hero-cta:hover { background: var(--ocre); color: var(--cafe); transform: translateX(4px); }
+.hero-cta-arrow { font-size: 1.1rem; transition: transform 0.2s; }
+.hero-cta:hover .hero-cta-arrow { transform: translateX(4px); }
+
+.hero-right {
+  background: var(--creme);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-right::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 300px; height: 300px;
+  background: var(--ocre);
+  opacity: 0.15;
+  border-radius: 50%;
+}
+
+.hero-big-word {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(5rem, 12vw, 10rem);
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  color: var(--cafe);
+  mix-blend-mode: multiply;
+  position: relative;
+  z-index: 1;
+  text-align: right;
+  opacity: 0;
+  animation: fadeIn 1.2s 0.4s forwards;
+}
+.hero-big-word .line2 { color: var(--terracota); display: block; }
+.hero-big-word .line3 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.55em;
+  color: var(--cafe-claro);
+  display: block;
+  letter-spacing: -0.02em;
+  margin-top: 0.5rem;
+}
+
+.hero-tag {
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--cafe-claro);
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* ── FAIXA MARQUEE ── */
+.marquee-wrap {
+  background: var(--terracota);
+  overflow: hidden;
+  padding: 0.85rem 0;
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 0;
+  animation: marquee 22s linear infinite;
+}
+.marquee-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--creme);
+  padding: 0 2.5rem;
+}
+.marquee-dot {
+  color: var(--ocre);
+  padding: 0 0.5rem;
+}
+
+/* ── SOBRE ── */
+#sobre {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 80vh;
+}
+
+.sobre-left {
+  background: var(--fundo);
+  padding: 6rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--areiaEsc);
+}
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--terracota);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.sobre-titulo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  color: var(--cafe);
+  margin-bottom: 2rem;
+}
+.sobre-titulo .it {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--terracota);
+}
+
+.sobre-texto {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--cafe-claro);
+  max-width: 440px;
+}
+
+.sobre-right {
+  background: var(--cafe);
+  padding: 6rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.manifesto-linha {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--cafe2);
+  padding-bottom: 1.5rem;
+  transform: translateX(20px);
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+.manifesto-linha.visible { transform: translateX(0); opacity: 1; }
+.manifesto-linha:last-child { border-bottom: none; }
+.ml-1 { color: var(--areia); transition-delay: 0s; }
+.ml-2 { color: var(--creme); transition-delay: 0.1s; }
+.ml-3 { color: var(--creme); transition-delay: 0.2s; }
+.ml-4 { color: var(--terracota); transition-delay: 0.3s; }
+.ml-5 { color: var(--terracota); transition-delay: 0.4s; }
+.ml-6 {
+  font-family: 'DM Mono', monospace;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--cafe-claro);
+  transition-delay: 0.5s;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* ── SERVIÇOS ── */
+#servicos {
+  background: var(--fundo);
+  padding: 7rem 3rem;
+}
+
+.servicos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 4rem;
+  border-bottom: 1px solid var(--areiaEsc);
+  padding-bottom: 2rem;
+}
+
+.servicos-titulo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  color: var(--cafe);
+  line-height: 1.0;
+}
+.servicos-titulo .it {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cafe-claro);
+}
+
+.servicos-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  color: var(--terracota);
+  text-transform: uppercase;
+  text-align: right;
+  max-width: 200px;
+}
+
+.servicos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--areiaEsc);
+}
+
+.servico-card {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--areiaEsc);
+  transition: background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.servico-card:last-child { border-right: none; }
+.servico-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--terracota);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.servico-card:hover::before { transform: scaleX(1); }
+.servico-card:hover { background: var(--creme); }
+
+.servico-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--terracota);
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.servico-icon {
+  width: 44px; height: 44px;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.servico-nome {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.15;
+  color: var(--cafe);
+  margin-bottom: 1rem;
+}
+
+.servico-desc {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--cafe-claro);
+}
+
+/* ── NUMBERS ── */
+#numeros {
+  background: var(--terracota);
+  padding: 5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.num-item {
+  padding: 2rem 2.5rem;
+  border-right: 1px solid rgba(242,224,192,0.15);
+  text-align: center;
+}
+.num-item:last-child { border-right: none; }
+
+.num-val {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  letter-spacing: -0.04em;
+  color: var(--creme);
+  line-height: 1;
+  display: block;
+}
+.num-val sup {
+  font-size: 0.4em;
+  vertical-align: super;
+  color: var(--ocre);
+}
+
+.num-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cafe);
+  margin-top: 0.5rem;
+  display: block;
+}
+
+/* ── CASES ── */
+#cases {
+  background: var(--cafe);
+  padding: 7rem 3rem;
+}
+
+.cases-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 5rem;
+}
+
+.cases-titulo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  color: var(--creme);
+  line-height: 1.0;
+}
+.cases-titulo .it {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--terracota);
+}
+
+.cases-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--ocre);
+  border: 1px solid var(--ocre);
+  padding: 0.4rem 1rem;
+  text-transform: uppercase;
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.case-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--cafe2);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.case-card:hover { transform: translateY(-4px); }
+.case-card:hover .case-overlay { opacity: 1; }
+.case-card:hover .mockup-browser { transform: translateY(-8px) rotate(-1deg); }
+
+/* MOCKUP BROWSER */
+.mockup-browser {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  background: #1a1a1a;
+  padding: 2.5rem 1.5rem 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.browser-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2rem;
+  background: #2a2a2a;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 0.4rem;
+}
+.browser-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.bd1 { background: #FF5F57; }
+.bd2 { background: #FFBD2E; }
+.bd3 { background: #28C840; }
+
+.browser-url {
+  margin-left: 0.75rem;
+  background: #1a1a1a;
+  border-radius: 3px;
+  height: 1.1rem;
+  flex: 1;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.55rem;
+  color: #666;
+  letter-spacing: 0.05em;
+}
+
+.mockup-screen {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Case 1 — loja de moda */
+.mock-moda {
+  background: #F9F4EE;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.mock-moda-nav {
+  height: 24px;
+  background: #2B1A0E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.mock-moda-logo { width: 40px; height: 6px; background: #E8C97A; border-radius: 2px; }
+.mock-moda-links { display: flex; gap: 8px; }
+.mock-moda-link { width: 20px; height: 3px; background: rgba(255,255,255,0.3); border-radius: 1px; }
+.mock-moda-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+}
+.mock-moda-hero {
+  background: var(--terracota);
+  grid-row: span 2;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px;
+}
+.mock-moda-hero::before {
+  content: '';
+  position: absolute;
+  top: 20%; left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 55%;
+  background: rgba(242,224,192,0.15);
+  border-radius: 999px 999px 0 0;
+}
+.mock-moda-hero-text { z-index: 1; }
+.mh-title { width: 50px; height: 5px; background: var(--creme); border-radius: 1px; margin-bottom: 3px; }
+.mh-sub { width: 35px; height: 3px; background: rgba(242,224,192,0.4); border-radius: 1px; }
+.mock-prod {
+  background: white;
+  border-radius: 2px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.mock-prod-img { height: 30px; background: var(--areia); border-radius: 1px; opacity: 0.6; }
+.mock-prod-name { width: 40px; height: 3px; background: #ddd; border-radius: 1px; }
+.mock-prod-price { width: 25px; height: 3px; background: var(--terracota); border-radius: 1px; }
+
+/* Case 2 — alimentação */
+.mock-food {
+  background: #1C1C1C;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.mock-food-hero {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.mock-food-circle {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: var(--ocre);
+  opacity: 0.9;
+  position: absolute;
+  top: 10px; right: 15px;
+}
+.mock-food-text { z-index: 1; }
+.mft-tag { width: 40px; height: 3px; background: var(--terracota); border-radius: 1px; margin-bottom: 6px; }
+.mft-title { width: 80px; height: 8px; background: white; border-radius: 1px; margin-bottom: 4px; }
+.mft-sub { width: 55px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 1px; }
+.mock-food-bar {
+  height: 36px;
+  background: var(--terracota);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+}
+.mfb-btn { width: 50px; height: 12px; background: var(--cafe); border-radius: 1px; }
+.mfb-btn2 { width: 35px; height: 12px; background: rgba(255,255,255,0.2); border-radius: 1px; }
+
+/* Case 3 — construção */
+.mock-construcao {
+  background: #F5F0E8;
+  height: 100%;
+}
+.mock-con-header {
+  height: 28px;
+  background: #1C4A2E;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 6px;
+}
+.mch-logo { width: 30px; height: 5px; background: #FFD100; border-radius: 1px; }
+.mch-nav { display: flex; gap: 5px; margin-left: auto; }
+.mch-link { width: 20px; height: 3px; background: rgba(255,255,255,0.3); border-radius: 1px; }
+.mock-con-hero {
+  height: 80px;
+  background: linear-gradient(135deg, #1C4A2E 0%, #2D7A47 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
+}
+.mcon-text {}
+.mcon-t1 { width: 70px; height: 7px; background: #FFD100; border-radius: 1px; margin-bottom: 4px; }
+.mcon-t2 { width: 50px; height: 4px; background: rgba(255,255,255,0.4); border-radius: 1px; }
+.mcon-btn { width: 45px; height: 16px; background: #FFD100; border-radius: 1px; margin-left: auto; }
+.mock-con-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 8px;
+}
+.mock-con-card {
+  background: white;
+  border-radius: 2px;
+  padding: 6px;
+  border-top: 2px solid #FFD100;
+}
+.mcc-img { height: 20px; background: #e0e0e0; border-radius: 1px; margin-bottom: 4px; }
+.mcc-t { width: 40px; height: 3px; background: #ccc; border-radius: 1px; }
+
+/* Case 4 — vazio / EM BREVE */
+.case-placeholder {
+  aspect-ratio: 16/9;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255,255,255,0.02) 10px,
+    rgba(255,255,255,0.02) 20px
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border: 1px dashed rgba(255,255,255,0.1);
+}
+.placeholder-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+}
+.placeholder-big {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.06);
+  letter-spacing: -0.03em;
+}
+
+.case-info {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.case-nome {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--creme);
+  margin-bottom: 0.25rem;
+}
+
+.case-tipo {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--cafe-claro);
+  text-transform: uppercase;
+}
+
+.case-arrow {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--terracota);
+  font-size: 1rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.case-card:hover .case-arrow {
+  background: var(--terracota);
+  color: var(--creme);
+  border-color: var(--terracota);
+}
+
+.case-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--terracota);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ── TOM DE VOZ ── */
+#tom {
+  background: var(--creme);
+  padding: 7rem 3rem;
+}
+
+.tom-header {
+  margin-bottom: 4rem;
+}
+
+.tom-titulo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  color: var(--cafe);
+  line-height: 1.0;
+  margin-bottom: 0.5rem;
+}
+.tom-titulo .it {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--cafe-claro);
+}
+
+.tom-lista { display: flex; flex-direction: column; gap: 0; }
+
+.tom-item {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--areiaEsc);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.tom-item.visible { opacity: 1; transform: translateY(0); }
+
+.tom-sim {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--cafe);
+  background: var(--fundo);
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.tom-sim::before {
+  content: '✓';
+  width: 22px; height: 22px;
+  background: var(--mato);
+  color: var(--cafe);
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tom-seta {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.2rem;
+  color: var(--terracota);
+  text-align: center;
+}
+
+.tom-nao {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--cafe-claro);
+  font-style: italic;
+  padding: 0.9rem 1.25rem;
+  border: 1px dashed var(--areiaEsc);
+}
+
+/* ── CONTATO ── */
+#contato {
+  background: var(--cafe);
+  padding: 8rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.contato-left {}
+
+.contato-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--terracota);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.contato-titulo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  color: var(--creme);
+  line-height: 1.0;
+  margin-bottom: 1.5rem;
+}
+.contato-titulo .it {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ocre);
+}
+
+.contato-texto {
+  font-size: 1rem;
+  color: var(--cafe-claro);
+  line-height: 1.7;
+  max-width: 400px;
+  margin-bottom: 2.5rem;
+}
+
+.contato-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--creme);
+  text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--terracota);
+  padding-bottom: 0.5rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+.contato-link:hover { color: var(--terracota); border-color: var(--ocre); }
+
+.contato-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.form-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cafe-claro);
+}
+
+.form-input, .form-textarea {
+  background: var(--cafe2);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--creme);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.85rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--terracota); }
+.form-textarea { resize: vertical; min-height: 100px; }
+
+.form-submit {
+  background: var(--terracota);
+  color: var(--creme);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  border: none;
+  cursor: none;
+  transition: background 0.25s, transform 0.2s;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+.form-submit:hover { background: var(--ocre); color: var(--cafe); transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--cafe);
+  border-top: 1px solid var(--cafe2);
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--creme);
+  letter-spacing: -0.02em;
+}
+.footer-logo span { color: var(--terracota); }
+
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--cafe-claro);
+}
+
+.footer-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--cafe-claro);
+}
+.footer-tag span { color: var(--terracota); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Vira<span>-</span>Lata Lab</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">O que fazemos</a></li>
+    <li><a href="#cases">Cases</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">// E-commerce & Digital Studio</div>
+    <h1 class="hero-title">
+      Sua loja<br>
+      <span class="italic">no ar.</span><br>
+      <span class="accent">Do jeito</span><br>
+      certo.
+    </h1>
+    <p class="hero-sub">
+      A gente abre sua loja, faz o cliente voltar,
+      coloca ela pra aparecer e olha os números com você.
+      Sem papo de agência.
+    </p>
+    <a href="#contato" class="hero-cta">
+      Bora conversar
+      <span class="hero-cta-arrow">→</span>
+    </a>
+    <span class="hero-tag">Feito no Brasil, pra quem vende no Brasil</span>
+  </div>
+  <div class="hero-right">
+    <div class="hero-big-word">
+      Vira<span class="line2">-Lata</span>
+      <span class="line3">raça de quem corre mais</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item">Abrimos sua loja</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Fazemos o cliente voltar</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Colocamos ela pra aparecer</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Olhamos os números com você</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Não vendemos plano</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Botamos a mão na massa</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Abrimos sua loja</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Fazemos o cliente voltar</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Colocamos ela pra aparecer</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Olhamos os números com você</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Não vendemos plano</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Botamos a mão na massa</span><span class="marquee-dot">◆</span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-left">
+    <span class="section-num reveal">// 01 — A história do nome</span>
+    <h2 class="sobre-titulo reveal reveal-delay-1">
+      Vira-lata<br>não é<br>
+      <span class="it">xingamento.</span>
+    </h2>
+    <p class="sobre-texto reveal reveal-delay-2">
+      É o cachorro mais esperto da rua. Adaptou, sobreviveu, chegou antes.
+      A gente faz o mesmo pelo seu negócio online — com garra, com jogo,
+      com raça de quem correu mais.
+    </p>
+  </div>
+  <div class="sobre-right">
+    <p class="manifesto-linha ml-1">Vira-lata não tem pedigree.</p>
+    <p class="manifesto-linha ml-2">Tem garra, tem jogo,</p>
+    <p class="manifesto-linha ml-3">tem raça de quem correu mais.</p>
+    <p class="manifesto-linha ml-4">O seu negócio merece</p>
+    <p class="manifesto-linha ml-5">uma agência que também corre.</p>
+    <p class="manifesto-linha ml-6">// feito no brasil, pra quem vende no brasil</p>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="servicos-header reveal">
+    <h2 class="servicos-titulo">O que<br><span class="it">fazemos</span></h2>
+    <span class="servicos-sub">Sem rodeio,<br>sem papo de agência</span>
+  </div>
+  <div class="servicos-grid">
+
+    <div class="servico-card reveal reveal-delay-1">
+      <span class="servico-num">01.</span>
+      <svg class="servico-icon" viewBox="0 0 44 44" fill="none">
+        <rect x="4" y="8" width="36" height="28" rx="2" stroke="#C4622D" stroke-width="1.5"/>
+        <path d="M4 16h36" stroke="#C4622D" stroke-width="1.5"/>
+        <rect x="10" y="22" width="10" height="8" rx="1" fill="#C4622D" opacity="0.3"/>
+        <path d="M26 24h8M26 28h6" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h3 class="servico-nome">Abrimos sua loja</h3>
+      <p class="servico-desc">Do zero. Plataforma, catálogo, meios de pagamento, frete. Tudo no ar sem você precisar virar programador.</p>
+    </div>
+
+    <div class="servico-card reveal reveal-delay-2">
+      <span class="servico-num">02.</span>
+      <svg class="servico-icon" viewBox="0 0 44 44" fill="none">
+        <circle cx="22" cy="22" r="14" stroke="#C4622D" stroke-width="1.5"/>
+        <path d="M16 22c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="3" fill="#C4622D" opacity="0.5"/>
+        <path d="M22 8v3M22 33v3M8 22h3M33 22h3" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h3 class="servico-nome">Fazemos o cliente voltar</h3>
+      <p class="servico-desc">Mensagem certa, hora certa. Carrinho abandonado, cliente sumido, hora de comprar de novo — a gente alcança.</p>
+    </div>
+
+    <div class="servico-card reveal reveal-delay-3">
+      <span class="servico-num">03.</span>
+      <svg class="servico-icon" viewBox="0 0 44 44" fill="none">
+        <path d="M8 32L16 20l6 8 6-10 8 12" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="34" cy="12" r="6" stroke="#C4622D" stroke-width="1.5"/>
+        <path d="M32 12h4M34 10v4" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h3 class="servico-nome">Colocamos a loja pra aparecer</h3>
+      <p class="servico-desc">Post, reels, anúncio, influenciador, e-mail. Com foco no que vende, não no que fica bonito no portfólio.</p>
+    </div>
+
+    <div class="servico-card reveal reveal-delay-4">
+      <span class="servico-num">04.</span>
+      <svg class="servico-icon" viewBox="0 0 44 44" fill="none">
+        <rect x="6" y="6" width="14" height="14" rx="2" stroke="#C4622D" stroke-width="1.5"/>
+        <rect x="24" y="6" width="14" height="14" rx="2" stroke="#C4622D" stroke-width="1.5"/>
+        <rect x="6" y="24" width="14" height="14" rx="2" stroke="#C4622D" stroke-width="1.5"/>
+        <rect x="24" y="24" width="14" height="14" rx="2" fill="#C4622D" opacity="0.2" stroke="#C4622D" stroke-width="1.5"/>
+        <path d="M28 31h6M28 34h4" stroke="#C4622D" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <h3 class="servico-nome">Olhamos os números com você</h3>
+      <p class="servico-desc">Mostramos o que tá sangrando, o que tá crescendo e o que dá pra fazer amanhã. Sem relatório de 40 páginas.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- NÚMEROS -->
+<section id="numeros">
+  <div class="num-item reveal">
+    <span class="num-val">+<span id="cnt1">0</span></span>
+    <span class="num-label">lojas abertas</span>
+  </div>
+  <div class="num-item reveal reveal-delay-1">
+    <span class="num-val"><span id="cnt2">0</span><sup>%</sup></span>
+    <span class="num-label">de retenção média</span>
+  </div>
+  <div class="num-item reveal reveal-delay-2">
+    <span class="num-val"><span id="cnt3">0</span><sup>x</sup></span>
+    <span class="num-label">retorno médio em ads</span>
+  </div>
+  <div class="num-item reveal reveal-delay-3">
+    <span class="num-val">+<span id="cnt4">0</span></span>
+    <span class="num-label">clientes ativos</span>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="cases">
+  <div class="cases-header reveal">
+    <h2 class="cases-titulo">Cases que<br><span class="it">a gente conta</span></h2>
+    <span class="cases-badge">Trabalhos reais</span>
+  </div>
+  <div class="cases-grid">
+
+    <!-- Case 1 -->
+    <div class="case-card reveal">
+      <div class="case-overlay"></div>
+      <div class="mockup-browser">
+        <div class="browser-bar">
+          <div class="browser-dot bd1"></div>
+          <div class="browser-dot bd2"></div>
+          <div class="browser-dot bd3"></div>
+          <div class="browser-url">vilabeleza.com.br</div>
+        </div>
+        <div class="mockup-screen">
+          <div class="mock-moda">
+            <div class="mock-moda-nav">
+              <div class="mock-moda-logo"></div>
+              <div class="mock-moda-links">
+                <div class="mock-moda-link"></div>
+                <div class="mock-moda-link"></div>
+                <div class="mock-moda-link"></div>
+              </div>
+            </div>
+            <div class="mock-moda-body">
+              <div class="mock-moda-hero">
+                <div class="mock-moda-hero-text">
+                  <div class="mh-title"></div>
+                  <div class="mh-sub"></div>
+                </div>
+              </div>
+              <div class="mock-prod">
+                <div class="mock-prod-img"></div>
+                <div class="mock-prod-name"></div>
+                <div class="mock-prod-price"></div>
+              </div>
+              <div class="mock-prod">
+                <div class="mock-prod-img"></div>
+                <div class="mock-prod-name"></div>
+                <div class="mock-prod-price"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="case-info">
+        <div>
+          <div class="case-nome">Vila Beleza</div>
+          <div class="case-tipo">Loja de cosméticos · implantação + CRM</div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Case 2 -->
+    <div class="case-card reveal reveal-delay-1">
+      <div class="case-overlay"></div>
+      <div class="mockup-browser">
+        <div class="browser-bar">
+          <div class="browser-dot bd1"></div>
+          <div class="browser-dot bd2"></div>
+          <div class="browser-dot bd3"></div>
+          <div class="browser-url">temperodarua.com.br</div>
+        </div>
+        <div class="mockup-screen">
+          <div class="mock-food">
+            <div class="mock-food-hero">
+              <div class="mock-food-circle"></div>
+              <div class="mock-food-text">
+                <div class="mft-tag"></div>
+                <div class="mft-title"></div>
+                <div class="mft-sub"></div>
+              </div>
+            </div>
+            <div class="mock-food-bar">
+              <div class="mfb-btn"></div>
+              <div class="mfb-btn2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="case-info">
+        <div>
+          <div class="case-nome">Tempero da Rua</div>
+          <div class="case-tipo">Alimentação · loja + conteúdo + ads</div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Case 3 -->
+    <div class="case-card reveal reveal-delay-2">
+      <div class="case-overlay"></div>
+      <div class="mockup-browser">
+        <div class="browser-bar">
+          <div class="browser-dot bd1"></div>
+          <div class="browser-dot bd2"></div>
+          <div class="browser-dot bd3"></div>
+          <div class="browser-url">construfacil.com.br</div>
+        </div>
+        <div class="mockup-screen">
+          <div class="mock-construcao">
+            <div class="mock-con-header">
+              <div class="mch-logo"></div>
+              <div class="mch-nav">
+                <div class="mch-link"></div>
+                <div class="mch-link"></div>
+                <div class="mch-link"></div>
+              </div>
+            </div>
+            <div class="mock-con-hero">
+              <div class="mcon-text">
+                <div class="mcon-t1"></div>
+                <div class="mcon-t2"></div>
+              </div>
+              <div class="mcon-btn"></div>
+            </div>
+            <div class="mock-con-grid">
+              <div class="mock-con-card">
+                <div class="mcc-img"></div>
+                <div class="mcc-t"></div>
+              </div>
+              <div class="mock-con-card">
+                <div class="mcc-img"></div>
+                <div class="mcc-t"></div>
+              </div>
+              <div class="mock-con-card">
+                <div class="mcc-img"></div>
+                <div class="mcc-t"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="case-info">
+        <div>
+          <div class="case-nome">ConstruFácil</div>
+          <div class="case-tipo">Material de construção · 307 SKUs</div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Case 4 — placeholder -->
+    <div class="case-card reveal reveal-delay-3">
+      <div class="case-placeholder">
+        <span class="placeholder-label">Em construção</span>
+        <span class="placeholder-big">Seu case aqui</span>
+        <span class="placeholder-label">// 2025</span>
+      </div>
+      <div class="case-info">
+        <div>
+          <div class="case-nome" style="color: rgba(242,224,192,0.25);">Próximo case</div>
+          <div class="case-tipo">Pode ser o seu negócio</div>
+        </div>
+        <div class="case-arrow" style="border-color:rgba(255,255,255,0.04); color: rgba(196,98,45,0.3);">→</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TOM DE VOZ -->
+<section id="tom">
+  <div class="tom-header reveal">
+    <h2 class="tom-titulo">Como a<br><span class="it">gente fala</span></h2>
+  </div>
+  <div class="tom-lista">
+    <div class="tom-item">
+      <div class="tom-sim">A gente abre sua loja</div>
+      <div class="tom-seta">→</div>
+      <div class="tom-nao">não "implantamos sua solução de e-commerce"</div>
+    </div>
+    <div class="tom-item">
+      <div class="tom-sim">Fazemos o cliente voltar</div>
+      <div class="tom-seta">→</div>
+      <div class="tom-nao">não "ativamos régua de retenção"</div>
+    </div>
+    <div class="tom-item">
+      <div class="tom-sim">Botamos a loja pra aparecer</div>
+      <div class="tom-seta">→</div>
+      <div class="tom-nao">não "gerenciamos tráfego pago e orgânico"</div>
+    </div>
+    <div class="tom-item">
+      <div class="tom-sim">Olhamos os números com você</div>
+      <div class="tom-seta">→</div>
+      <div class="tom-nao">não "entregamos relatório de KPIs"</div>
+    </div>
+    <div class="tom-item">
+      <div class="tom-sim">Botamos a mão na massa</div>
+      <div class="tom-seta">→</div>
+      <div class="tom-nao">não "somos um parceiro estratégico"</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-left">
+    <span class="contato-eyebrow reveal">// Bora conversar</span>
+    <h2 class="contato-titulo reveal reveal-delay-1">
+      Sua loja<br>
+      <span class="it">não vai</span><br>
+      se abrir sozinha.
+    </h2>
+    <p class="contato-texto reveal reveal-delay-2">
+      A gente não manda proposta de 30 páginas.
+      Manda uma conversa de 30 minutos.
+      Conta o que você precisa que a gente vai direto ao ponto.
+    </p>
+    <a href="mailto:oi@viralatalab.com.br" class="contato-link reveal reveal-delay-3">
+      oi@viralatalab.com.br →
+    </a>
+  </div>
+  <div class="contato-right reveal reveal-delay-2">
+    <div class="form-group">
+      <label class="form-label">Seu nome</label>
+      <input class="form-input" type="text" placeholder="Como te chamam">
+    </div>
+    <div class="form-group">
+      <label class="form-label">WhatsApp ou e-mail</label>
+      <input class="form-input" type="text" placeholder="Melhor jeito de te chamar">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Conta o que você precisa</label>
+      <textarea class="form-textarea" placeholder="Tenho uma loja de… / Quero abrir… / Tô travado em…"></textarea>
+    </div>
+    <button class="form-submit">Manda a mensagem →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Vira<span>-</span>Lata Lab</div>
+  <div class="footer-copy">© 2025 Vira-Lata Lab</div>
+  <div class="footer-tag">feito no brasil <span>◆</span> com raça</div>
+</footer>
+
+<script>
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .case-card, .servico-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '6px';
+    cursor.style.height = '6px';
+    ring.style.width = '52px';
+    ring.style.height = '52px';
+    ring.style.opacity = '0.8';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px';
+    cursor.style.height = '12px';
+    ring.style.width = '36px';
+    ring.style.height = '36px';
+    ring.style.opacity = '0.5';
+  });
+});
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .manifesto-linha, .tom-item').forEach(el => observer.observe(el));
+
+// ── COUNTERS ──
+function animateCounter(id, target, suffix = '') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let start = 0;
+  const duration = 1800;
+  const step = timestamp => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(ease * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(step);
+}
+
+const numSection = document.getElementById('numeros');
+const numObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    animateCounter('cnt1', 47);
+    animateCounter('cnt2', 68);
+    animateCounter('cnt3', 4);
+    animateCounter('cnt4', 31);
+    numObserver.unobserve(numSection);
+  }
+}, { threshold: 0.3 });
+numObserver.observe(numSection);
+
+// ── NAV ACTIVE ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current
+      ? 'var(--terracota)' : '';
+  });
+});
+</script>
+</body>
+</html>
