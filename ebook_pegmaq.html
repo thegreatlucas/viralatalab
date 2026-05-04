@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Completo E-commerce — Pegmaq</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --terracota: #C1440E;
+  --terracota-escuro: #8B2E07;
+  --ocre: #C8922A;
+  --ocre-claro: #E8B96A;
+  --areia: #F2E8D9;
+  --areia-escuro: #DDD0BB;
+  --marrom: #3D1F0A;
+  --marrom-medio: #6B3A1F;
+  --creme: #FAF6EF;
+  --cinza-escuro: #1A1208;
+
+  --fonte-display: 'Playfair Display', Georgia, serif;
+  --fonte-corpo: 'DM Sans', sans-serif;
+  --fonte-mono: 'DM Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cinza-escuro);
+  color: var(--areia);
+  font-family: var(--fonte-corpo);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ─── PRINT ─── */
+@media print {
+  .nav-lateral { display: none !important; }
+  .btn-print { display: none !important; }
+  section { page-break-before: always; }
+  section:first-of-type { page-break-before: avoid; }
+  body { background: white; color: #1A1208; }
+  .capa { min-height: 100vh; }
+}
+
+/* ─── NAV LATERAL ─── */
+.nav-lateral {
+  position: fixed;
+  left: 0; top: 0;
+  width: 260px; height: 100vh;
+  background: var(--marrom);
+  border-right: 1px solid rgba(200,146,42,0.2);
+  padding: 32px 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-logo {
+  padding: 0 24px 28px;
+  border-bottom: 1px solid rgba(200,146,42,0.15);
+  margin-bottom: 24px;
+}
+
+.nav-logo .vll {
+  font-family: var(--fonte-display);
+  font-size: 11px;
+  color: var(--ocre);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.nav-logo .cliente {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--areia);
+  letter-spacing: -0.3px;
+}
+
+.nav-logo .cliente span {
+  color: var(--terracota);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  text-decoration: none;
+  color: var(--areia-escuro);
+  font-size: 13px;
+  font-weight: 400;
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+}
+
+.nav-item:hover, .nav-item.ativo {
+  color: var(--ocre-claro);
+  background: rgba(200,146,42,0.08);
+  border-left-color: var(--terracota);
+}
+
+.nav-num {
+  font-family: var(--fonte-mono);
+  font-size: 10px;
+  color: var(--terracota);
+  min-width: 20px;
+}
+
+.nav-footer {
+  margin-top: auto;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(200,146,42,0.15);
+}
+
+.nav-footer p {
+  font-size: 11px;
+  color: var(--marrom-medio);
+  line-height: 1.6;
+}
+
+/* ─── MAIN ─── */
+.main {
+  margin-left: 260px;
+}
+
+/* ─── CAPA ─── */
+.capa {
+  min-height: 100vh;
+  background: var(--cinza-escuro);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 72px;
+  overflow: hidden;
+}
+
+.capa::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(193,68,14,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(200,146,42,0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.capa-tag {
+  font-family: var(--fonte-mono);
+  font-size: 11px;
+  color: var(--terracota);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.capa-tag::before {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--terracota);
+  display: block;
+}
+
+.capa-titulo {
+  font-family: var(--fonte-display);
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 900;
+  line-height: 0.95;
+  color: var(--areia);
+  margin-bottom: 8px;
+}
+
+.capa-titulo span {
+  color: var(--terracota);
+  font-style: italic;
+}
+
+.capa-subtitulo {
+  font-family: var(--fonte-display);
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 700;
+  color: var(--ocre);
+  margin-bottom: 40px;
+  line-height: 1.1;
+}
+
+.capa-desc {
+  max-width: 560px;
+  font-size: 16px;
+  color: var(--areia-escuro);
+  font-weight: 300;
+  line-height: 1.8;
+  margin-bottom: 56px;
+  border-left: 2px solid var(--ocre);
+  padding-left: 20px;
+}
+
+.capa-meta {
+  display: flex;
+  gap: 48px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-valor {
+  font-family: var(--fonte-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--terracota);
+  line-height: 1;
+}
+
+.meta-label {
+  font-size: 11px;
+  color: var(--areia-escuro);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.capa-deco {
+  position: absolute;
+  right: 72px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--fonte-display);
+  font-size: 280px;
+  font-weight: 900;
+  color: rgba(193,68,14,0.06);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.capa-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--terracota) 0%, var(--ocre) 50%, var(--terracota-escuro) 100%);
+}
+
+/* ─── SEÇÃO ─── */
+section {
+  min-height: 100vh;
+  padding: 72px 72px;
+  border-bottom: 1px solid rgba(200,146,42,0.08);
+}
+
+section:nth-child(even) {
+  background: rgba(61, 31, 10, 0.15);
+}
+
+.sec-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 52px;
+}
+
+.sec-num {
+  font-family: var(--fonte-mono);
+  font-size: 11px;
+  color: var(--terracota);
+  letter-spacing: 2px;
+  padding-top: 8px;
+  min-width: 36px;
+}
+
+.sec-titulo-wrap {}
+
+.sec-cat {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ocre);
+  margin-bottom: 6px;
+}
+
+.sec-titulo {
+  font-family: var(--fonte-display);
+  font-size: clamp(30px, 4vw, 50px);
+  font-weight: 700;
+  color: var(--areia);
+  line-height: 1.05;
+}
+
+.sec-titulo em {
+  color: var(--terracota);
+  font-style: italic;
+}
+
+.sec-lead {
+  font-size: 16px;
+  color: var(--areia-escuro);
+  font-weight: 300;
+  max-width: 680px;
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+/* ─── SUBSECTION ─── */
+.subsec {
+  margin-bottom: 44px;
+}
+
+.subsec-titulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ocre);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subsec-titulo::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(200,146,42,0.2);
+}
+
+p {
+  color: var(--areia-escuro);
+  margin-bottom: 14px;
+  max-width: 760px;
+}
+
+strong {
+  color: var(--areia);
+  font-weight: 600;
+}
+
+/* ─── GRID CARDS ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+
+.card {
+  background: rgba(61,31,10,0.4);
+  border: 1px solid rgba(200,146,42,0.15);
+  border-radius: 10px;
+  padding: 22px 24px;
+  transition: border-color 0.2s;
+}
+
+.card:hover { border-color: rgba(193,68,14,0.4); }
+
+.card-topo {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terracota);
+  margin-bottom: 8px;
+}
+
+.card-titulo {
+  font-family: var(--fonte-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--areia);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.card-corpo {
+  font-size: 13px;
+  color: var(--areia-escuro);
+  line-height: 1.7;
+}
+
+.card-valor {
+  font-family: var(--fonte-mono);
+  font-size: 20px;
+  color: var(--ocre);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+/* ─── TABELA ─── */
+.tabela-wrap {
+  overflow-x: auto;
+  margin-bottom: 32px;
+  border-radius: 10px;
+  border: 1px solid rgba(200,146,42,0.15);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead tr {
+  background: var(--terracota);
+}
+
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--areia);
+}
+
+tbody tr:nth-child(even) { background: rgba(61,31,10,0.3); }
+tbody tr:nth-child(odd)  { background: rgba(61,31,10,0.1); }
+tbody tr:hover           { background: rgba(200,146,42,0.08); }
+
+tbody td {
+  padding: 11px 16px;
+  font-size: 13px;
+  color: var(--areia-escuro);
+  border-bottom: 1px solid rgba(200,146,42,0.06);
+  vertical-align: top;
+}
+
+tbody td:first-child {
+  color: var(--areia);
+  font-weight: 500;
+}
+
+/* ─── BULLETS ─── */
+.lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+  max-width: 760px;
+}
+
+.lista li {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--areia-escuro);
+  line-height: 1.6;
+}
+
+.lista li::before {
+  content: '▸';
+  color: var(--terracota);
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 12px;
+}
+
+/* ─── ALERTAS ─── */
+.alerta {
+  background: rgba(200,146,42,0.1);
+  border-left: 3px solid var(--ocre);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  max-width: 760px;
+  font-size: 13.5px;
+  color: var(--areia-escuro);
+}
+
+.alerta.vermelho {
+  background: rgba(193,68,14,0.12);
+  border-left-color: var(--terracota);
+}
+
+.alerta-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ocre);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.alerta.vermelho .alerta-label { color: var(--terracota); }
+
+/* ─── DESTAQUE ─── */
+.destaque {
+  background: var(--terracota);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  max-width: 760px;
+  font-size: 14px;
+  color: var(--areia);
+  font-weight: 500;
+}
+
+.destaque-ocre {
+  background: rgba(200,146,42,0.15);
+  border: 1px solid var(--ocre);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  max-width: 760px;
+  font-size: 14px;
+  color: var(--areia);
+}
+
+/* ─── TIMELINE ROADMAP ─── */
+.timeline-roadmap {
+  margin: 40px 0;
+}
+
+.fase {
+  margin-bottom: 36px;
+}
+
+.fase-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.fase-cor {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.fase-nome {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.fase-tarefas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tarefa-linha {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.tarefa-nome {
+  font-size: 12.5px;
+  color: var(--areia-escuro);
+  text-align: right;
+}
+
+.gantt-track {
+  height: 18px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gantt-bar {
+  position: absolute;
+  height: 100%;
+  border-radius: 4px;
+  opacity: 0.85;
+}
+
+/* Semanas como % (9 semanas = 100%) */
+/* s1=11.1%, s2=22.2%, etc */
+
+/* ─── FÓRMULA ─── */
+.formula {
+  background: rgba(61,31,10,0.6);
+  border: 1px solid rgba(200,146,42,0.25);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  max-width: 640px;
+  font-family: var(--fonte-mono);
+  font-size: 14px;
+  color: var(--ocre-claro);
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* ─── NCM / CÓDIGO ─── */
+.tag-ncm {
+  display: inline-block;
+  background: rgba(193,68,14,0.2);
+  border: 1px solid rgba(193,68,14,0.4);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-family: var(--fonte-mono);
+  font-size: 11px;
+  color: var(--terracota);
+  margin-left: 6px;
+}
+
+/* ─── CHECKLIST ─── */
+.checklist-grupo {
+  margin-bottom: 36px;
+}
+
+.checklist-titulo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ocre);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(200,146,42,0.2);
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13.5px;
+  color: var(--areia-escuro);
+}
+
+.check-box {
+  width: 18px; height: 18px;
+  border: 1.5px solid rgba(200,146,42,0.4);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ─── COLUMNA SPLIT ─── */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 36px;
+}
+
+/* ─── FINAL CTA ─── */
+.cta-final {
+  background: var(--marrom);
+  border-radius: 16px;
+  padding: 52px 56px;
+  text-align: center;
+  border: 1px solid rgba(200,146,42,0.2);
+  margin-top: 32px;
+}
+
+.cta-final h2 {
+  font-family: var(--fonte-display);
+  font-size: 40px;
+  color: var(--areia);
+  margin-bottom: 16px;
+}
+
+.cta-final p {
+  font-size: 16px;
+  color: var(--areia-escuro);
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+
+/* ─── BTN PRINT ─── */
+.btn-print {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--terracota);
+  color: var(--areia);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-family: var(--fonte-corpo);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  z-index: 200;
+  transition: background 0.2s;
+}
+
+.btn-print:hover { background: var(--terracota-escuro); }
+
+/* ─── SEPARADOR ─── */
+.sep {
+  width: 48px; height: 3px;
+  background: var(--terracota);
+  border-radius: 2px;
+  margin: 24px 0;
+}
+
+/* ─── SUMÁRIO ─── */
+.sumario {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 560px;
+  margin-top: 40px;
+}
+
+.sum-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(200,146,42,0.08);
+  text-decoration: none;
+  color: var(--areia-escuro);
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.sum-item:hover { color: var(--ocre-claro); }
+
+.sum-item-num {
+  font-family: var(--fonte-mono);
+  font-size: 10px;
+  color: var(--terracota);
+  min-width: 28px;
+}
+
+.sum-item-titulo { flex: 1; }
+.sum-item-seta { color: rgba(200,146,42,0.4); font-size: 11px; }
+
+/* ─── GRID EMBALAGEM ─── */
+.emb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.emb-card {
+  background: rgba(61,31,10,0.5);
+  border: 1px solid rgba(200,146,42,0.12);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.emb-card-cat {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terracota);
+  margin-bottom: 8px;
+}
+
+.emb-card-tamanho {
+  font-family: var(--fonte-mono);
+  font-size: 17px;
+  color: var(--ocre);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.emb-card-obs {
+  font-size: 11.5px;
+  color: var(--areia-escuro);
+  line-height: 1.5;
+}
+
+/* ─── MÉTRICAS ─── */
+.metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.metrica-card {
+  background: rgba(61,31,10,0.4);
+  border: 1px solid rgba(200,146,42,0.12);
+  border-radius: 10px;
+  padding: 20px 22px;
+}
+
+.metrica-nome {
+  font-size: 11px;
+  color: var(--ocre);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.metrica-meta {
+  font-family: var(--fonte-mono);
+  font-size: 20px;
+  color: var(--areia);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.metrica-desc {
+  font-size: 12px;
+  color: var(--areia-escuro);
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV LATERAL -->
+<nav class="nav-lateral">
+  <div class="nav-logo">
+    <span class="vll">Vira-Lata Lab</span>
+    <div class="cliente">Peg<span>maq</span></div>
+  </div>
+  <a href="#capa" class="nav-item ativo"><span class="nav-num">00</span> Apresentação</a>
+  <a href="#roadmap" class="nav-item"><span class="nav-num">01</span> Roadmap do Projeto</a>
+  <a href="#juridico" class="nav-item"><span class="nav-num">02</span> Jurídico</a>
+  <a href="#fiscal" class="nav-item"><span class="nav-num">03</span> Fiscal e NF-e</a>
+  <a href="#estoque" class="nav-item"><span class="nav-num">04</span> Estoque</a>
+  <a href="#embalagem" class="nav-item"><span class="nav-num">05</span> Embalagem</a>
+  <a href="#logistica" class="nav-item"><span class="nav-num">06</span> Logística</a>
+  <a href="#plataforma" class="nav-item"><span class="nav-num">07</span> Plataforma e ERP</a>
+  <a href="#pagamento" class="nav-item"><span class="nav-num">08</span> Pagamentos</a>
+  <a href="#atendimento" class="nav-item"><span class="nav-num">09</span> Atendimento</a>
+  <a href="#marketing" class="nav-item"><span class="nav-num">10</span> Marketing</a>
+  <a href="#metricas" class="nav-item"><span class="nav-num">11</span> Métricas</a>
+  <a href="#checklist" class="nav-item"><span class="nav-num">12</span> Checklist</a>
+  <div class="nav-footer">
+    <p>Material de apoio produzido pela Vira-Lata Lab para Pegmaq — Itatiba/SP</p>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- ─── CAPA ─── -->
+<section class="capa" id="capa">
+  <div class="capa-deco">P</div>
+  <div class="capa-tag">Vira-Lata Lab &nbsp;·&nbsp; E-commerce</div>
+  <h1 class="capa-titulo">Guia<br><span>Completo</span></h1>
+  <h2 class="capa-subtitulo">para lançar seu e-commerce</h2>
+  <p class="capa-desc">
+    Tudo que a Pegmaq precisa decidir antes e durante o lançamento da loja online —
+    de embalagem e frete até fiscal, marketing e métricas. Produzido como entrega
+    complementar ao projeto de desenvolvimento.
+  </p>
+  <div class="capa-meta">
+    <div class="meta-item">
+      <span class="meta-valor">9</span>
+      <span class="meta-label">Semanas de projeto</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-valor">12</span>
+      <span class="meta-label">Capítulos</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-valor">Itatiba</span>
+      <span class="meta-label">São Paulo / Brasil</span>
+    </div>
+  </div>
+  <div class="capa-bottom"></div>
+</section>
+
+<!-- ─── ROADMAP ─── -->
+<section id="roadmap">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Etapas do Projeto</div>
+      <h2 class="sec-titulo">Roadmap de <em>9 semanas</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Este é o cronograma completo do projeto acordado entre a Pegmaq e a equipe de desenvolvimento. Cada fase tem tarefas que dependem de decisões e ações da sua parte — este guia te prepara para cada uma delas.</p>
+
+  <div class="timeline-roadmap">
+
+    <!-- INÍCIO -->
+    <div class="fase">
+      <div class="fase-header">
+        <div class="fase-cor" style="background:#84cc16;"></div>
+        <span class="fase-nome" style="color:#84cc16;">Início</span>
+      </div>
+      <div class="fase-tarefas">
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Reunião Kickoff</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#84cc16;left:0%;width:6%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Decisões de negócio</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#84cc16;left:0%;width:20%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CADASTRO -->
+    <div class="fase">
+      <div class="fase-header">
+        <div class="fase-cor" style="background:#22d3ee;"></div>
+        <span class="fase-nome" style="color:#22d3ee;">Cadastro</span>
+      </div>
+      <div class="fase-tarefas">
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Fotos e captação (se necessário)</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#22d3ee;left:11%;width:44%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Captação de dados técnicos</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#22d3ee;left:11%;width:22%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Árvore de categorias</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#22d3ee;left:33%;width:11%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Cadastro de produtos na plataforma</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#22d3ee;left:44%;width:44%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="fase">
+      <div class="fase-header">
+        <div class="fase-cor" style="background:#f97316;"></div>
+        <span class="fase-nome" style="color:#f97316;">Layout</span>
+      </div>
+      <div class="fase-tarefas">
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Criação de Banners</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#f97316;left:44%;width:22%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Criação de Landing Pages</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#f97316;left:44%;width:33%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Diagramação de conteúdo</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#f97316;left:33%;width:11%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Aprovação pelo cliente</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#f97316;left:66%;width:11%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÃO -->
+    <div class="fase">
+      <div class="fase-header">
+        <div class="fase-cor" style="background:#c084fc;"></div>
+        <span class="fase-nome" style="color:#c084fc;">Configuração</span>
+      </div>
+      <div class="fase-tarefas">
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Páginas legais</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#c084fc;left:77%;width:11%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Configuração de pagamento</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#c084fc;left:77%;width:11%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Configuração de envio</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#c084fc;left:77%;width:11%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Configuração de promoções</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#c084fc;left:77%;width:11%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Integração ERP (fiscal)</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#c084fc;left:88%;width:8%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Integração Social e Analytics</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#c084fc;left:88%;width:8%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENTREGA -->
+    <div class="fase">
+      <div class="fase-header">
+        <div class="fase-cor" style="background:#22c55e;"></div>
+        <span class="fase-nome" style="color:#22c55e;">Entrega</span>
+      </div>
+      <div class="fase-tarefas">
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Revisão Final</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#22c55e;left:88%;width:8%;"></div>
+          </div>
+        </div>
+        <div class="tarefa-linha">
+          <span class="tarefa-nome">Go-Live</span>
+          <div class="gantt-track">
+            <div class="gantt-bar" style="background:#22c55e;left:95%;width:5%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- legenda semanas -->
+    <div class="tarefa-linha" style="margin-top:16px;">
+      <span class="tarefa-nome" style="color:transparent;">.</span>
+      <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:0;">
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S1</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S2</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S3</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S4</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S5</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S6</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S7</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S8</span>
+        <span style="font-size:10px;color:rgba(200,146,42,0.5);font-family:var(--fonte-mono);text-align:center;">S9</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="alerta">
+    <div class="alerta-label">O que depende de você</div>
+    Na fase de Cadastro, você precisa fornecer as informações técnicas dos produtos, NCMs, fotos e dados de estoque. Na fase de Configuração, será necessário ter CNPJ, Inscrição Estadual e conta de gateway de pagamento ativa. Este guia te prepara para cada uma dessas etapas.
+  </div>
+</section>
+
+<!-- ─── JURÍDICO ─── -->
+<section id="juridico">
+  <div class="sec-header">
+    <span class="sec-num">02</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Estrutura legal</div>
+      <h2 class="sec-titulo">Jurídico e <em>Abertura</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Antes de receber o primeiro pedido, você precisa estar formalizado. Vender sem CNPJ pode gerar bloqueio de conta bancária e problemas com marketplaces.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Tipo de empresa</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Formato</th><th>Faturamento anual</th><th>Ideal para</th><th>Limitações</th></tr></thead>
+        <tbody>
+          <tr><td>MEI</td><td>Até R$ 81.000</td><td>Quem está começando pequeno</td><td>Sem sócios; CNAE limitado</td></tr>
+          <tr><td>ME — Simples</td><td>Até R$ 360.000</td><td>Loja pequena/média</td><td>Contabilidade obrigatória</td></tr>
+          <tr><td>EPP — Simples</td><td>Até R$ 4,8 milhões</td><td>Operação escalável</td><td>Contabilidade obrigatória</td></tr>
+          <tr><td>LTDA</td><td>Sem limite</td><td>Grandes operações</td><td>Custo alto de abertura</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alerta vermelho">
+      <div class="alerta-label">Atenção MEI</div>
+      Ferramentas elétricas e produtos químicos (adesivos) podem não estar cobertos pelo CNAE do MEI. Confirme com um contador antes de começar.
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Documentos necessários</div>
+    <ul class="lista">
+      <li>RG e CPF dos sócios</li>
+      <li>Comprovante de endereço da empresa e dos sócios</li>
+      <li>Contrato Social ou Requerimento de Empresário</li>
+      <li>Alvará de funcionamento municipal — obrigatório mesmo para e-commerce</li>
+      <li>Inscrição Estadual — necessária para emitir NF-e de produto</li>
+      <li>Certificado digital (e-CNPJ) para assinar notas fiscais eletrônicas</li>
+    </ul>
+  </div>
+
+  <div class="split">
+    <div class="subsec">
+      <div class="subsec-titulo">Registro de Marca (INPI)</div>
+      <ul class="lista">
+        <li>Pesquise disponibilidade em busca.inpi.gov.br</li>
+        <li>Custo: R$ 355 a R$ 710 por classe de produto</li>
+        <li>Prazo médio: 18 a 36 meses para definitivo</li>
+        <li>Proteção provisória existe a partir do protocolo</li>
+      </ul>
+    </div>
+    <div class="subsec">
+      <div class="subsec-titulo">LGPD — Lei de Proteção de Dados</div>
+      <ul class="lista">
+        <li>Política de Privacidade visível no site</li>
+        <li>Banner de consentimento de cookies</li>
+        <li>Nunca compartilhar dados de clientes sem autorização</li>
+        <li>Armazenar dados em servidores seguros</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FISCAL ─── -->
+<section id="fiscal">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Tributação</div>
+      <h2 class="sec-titulo">Fiscal e <em>NF-e</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Toda venda online exige emissão de Nota Fiscal Eletrônica — sem exceção. Isso vale para R$ 10 ou R$ 10.000.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">CFOP — Código de Operação</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>CFOP</th><th>Operação</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td>5.102</td><td>Venda de mercadoria para revenda</td><td>Cliente no mesmo estado do CNPJ</td></tr>
+          <tr><td>6.102</td><td>Venda de mercadoria para revenda</td><td>Cliente em outro estado</td></tr>
+          <tr><td>5.949 / 6.949</td><td>Devolução / troca</td><td>Cliente devolvendo produto</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">NCM dos seus produtos</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Produto</th><th>NCM provável</th></tr></thead>
+        <tbody>
+          <tr><td>Adesivos e colas (Tekbond)</td><td><span class="tag-ncm">3506.10.90</span> ou <span class="tag-ncm">3506.99.90</span></td></tr>
+          <tr><td>Fitas adesivas</td><td><span class="tag-ncm">3919.10.00</span> ou <span class="tag-ncm">3919.90.00</span></td></tr>
+          <tr><td>Silicone vedante</td><td><span class="tag-ncm">3214.10.90</span></td></tr>
+          <tr><td>Ferramentas elétricas portáteis (Menegotti)</td><td><span class="tag-ncm">8467.xx.xx</span></td></tr>
+          <tr><td>Cortadores de piso (Cortag)</td><td><span class="tag-ncm">8467.xx.xx</span></td></tr>
+          <tr><td>Discos de corte</td><td><span class="tag-ncm">6804.21.00</span></td></tr>
+          <tr><td>Aerossóis / sprays</td><td><span class="tag-ncm">3814.00.90</span> ou <span class="tag-ncm">2710.19.99</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alerta vermelho">
+      <div class="alerta-label">Crítico</div>
+      NCMs incorretos geram autuação fiscal e podem bloquear o trânsito de mercadorias. Solicite o NCM correto de cada item diretamente ao fornecedor (Tekbond, Cortag, Menegotti).
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">DIFAL e regime tributário</div>
+    <p>Vendas para consumidores finais em outros estados podem exigir o recolhimento do DIFAL (diferença entre alíquotas interestaduais e do estado de destino). Empresas no Simples Nacional podem ter isenção em muitos estados — confirme com seu contador.</p>
+    <div class="alerta">
+      <div class="alerta-label">Dica</div>
+      No Simples Nacional (Anexo I — Comércio), as alíquotas começam em torno de 4% do faturamento e crescem progressivamente. O DAS é pago mensalmente e unifica todos os tributos.
+    </div>
+  </div>
+</section>
+
+<!-- ─── ESTOQUE ─── -->
+<section id="estoque">
+  <div class="sec-header">
+    <span class="sec-num">04</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Gestão de produtos</div>
+      <h2 class="sec-titulo">Organização do <em>Estoque</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">A lista que você forneceu já é um catálogo curado com os produtos de maior giro no Mercado Livre. O desafio agora é definir quanto manter de cada um.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Curva ABC</div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-topo">Categoria A</div>
+        <div class="card-titulo">20% dos SKUs · 80% do faturamento</div>
+        <div class="card-corpo">Cola de contato, fita crepe, silicone 280g, esmerilhadeiras. <strong>Nunca ficar sem.</strong> Reposição semanal.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Categoria B</div>
+        <div class="card-titulo">30% dos SKUs · 15% do faturamento</div>
+        <div class="card-corpo">Araldite, bumpers, discos de corte. Saída regular. Reposição quinzenal.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Categoria C</div>
+        <div class="card-titulo">50% dos SKUs · 5% do faturamento</div>
+        <div class="card-corpo">Guincho coluna, cortadores HD-1000, marteletes pesados. Estoque mínimo ou sob encomenda.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Ponto de Reposição</div>
+    <div class="formula">Ponto de Reposição = Consumo Médio Diário × Lead Time do Fornecedor + Estoque de Segurança</div>
+    <div class="alerta">
+      <div class="alerta-label">Referência</div>
+      Para itens de giro rápido (cola de contato, fita crepe): estoque de segurança de 15 dias. Para equipamentos pesados (marteletes): 1 a 2 unidades de segurança já é suficiente.
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Armazenamento de produtos químicos</div>
+    <div class="alerta vermelho">
+      <div class="alerta-label">Segurança</div>
+      Adesivos, solventes e sprays da Tekbond têm restrições específicas de armazenamento. Solicite a FISPQ (Ficha de Informações de Segurança) de cada produto ao fornecedor.
+    </div>
+    <ul class="lista">
+      <li>Produtos químicos e aerossóis em área ventilada, longe de fontes de calor e ignição</li>
+      <li>Caixas pesadas (marteletes, guinchos) no nível do chão ou prateleiras baixas</li>
+      <li>Produtos pequenos em caixas organizadoras identificadas por SKU</li>
+      <li>Entradas e saídas registradas em sistema — mesmo uma planilha já resolve no início</li>
+      <li>Extintor e kit de primeiros socorros na área de estoque</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ─── EMBALAGEM ─── -->
+<section id="embalagem">
+  <div class="sec-header">
+    <span class="sec-num">05</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Expedição</div>
+      <h2 class="sec-titulo">Embalagem e <em>Proteção</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Caixas grandes demais aumentam o custo de frete por cubagem. Caixas pequenas quebram o produto. O equilíbrio está nos números.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Peso cubado</div>
+    <div class="formula">Peso Cubado = (Comprimento × Largura × Altura em cm) ÷ 6.000</div>
+    <div class="alerta">
+      <div class="alerta-label">Exemplo</div>
+      Caixa 30×20×15 cm = 1,5 kg cubado. Se o produto pesa 800g, você paga pelo 1,5 kg. Sempre otimize o tamanho da caixa para o produto real.
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Tamanho por categoria</div>
+    <div class="emb-grid">
+      <div class="emb-card">
+        <div class="emb-card-cat">Adesivos pequenos</div>
+        <div class="emb-card-tamanho">15×10×8 cm</div>
+        <div class="emb-card-obs">Araldite, cola 30g, bumpers. Papel picado ou bolha para amortecimento.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Fitas adesivas</div>
+        <div class="emb-card-tamanho">20×15×10 cm</div>
+        <div class="emb-card-obs">Crepe, silver, empacotamento. Até 3 rolos por caixa.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Cola contato / Silicone</div>
+        <div class="emb-card-tamanho">20×15×12 cm</div>
+        <div class="emb-card-obs">Embalar em saco plástico interno — risco de vazamento.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Aerossóis Tekbond</div>
+        <div class="emb-card-tamanho">25×15×12 cm</div>
+        <div class="emb-card-obs">Identificar AEROSSOL na embalagem. Proibido envio aéreo.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Ferramentas manuais Cortag</div>
+        <div class="emb-card-tamanho">25×20×10 cm</div>
+        <div class="emb-card-obs">Bolha ou isopor nas pontas cortantes.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Ferramentas elétricas médias</div>
+        <div class="emb-card-tamanho">35×25×20 cm</div>
+        <div class="emb-card-obs">Esmerilhadeira, furadeira Menegotti. Isopor obrigatório.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Equipamentos grandes</div>
+        <div class="emb-card-tamanho">50×35×35 cm</div>
+        <div class="emb-card-obs">Aspirador, misturador. Preferível usar caixa original do fabricante.</div>
+      </div>
+      <div class="emb-card">
+        <div class="emb-card-cat">Cortadores de piso MCP</div>
+        <div class="emb-card-tamanho">70×40×25 cm</div>
+        <div class="emb-card-obs">Fita de reforço nas quinas. Identificar FRÁGIL.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Materiais necessários</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Material</th><th>Uso</th><th>Custo estimado</th></tr></thead>
+        <tbody>
+          <tr><td>Plástico bolha (rolo 1,2m)</td><td>Produtos frágeis e eletrônicos</td><td>R$ 80 a R$ 150 o rolo</td></tr>
+          <tr><td>Papel kraft</td><td>Enchimento de espaços</td><td>R$ 40 a R$ 70 o rolo</td></tr>
+          <tr><td>Isopor em blocos</td><td>Equipamentos pesados</td><td>R$ 5 a R$ 20 a peça</td></tr>
+          <tr><td>Fita de polipropileno 48mm</td><td>Fechamento padrão</td><td>R$ 6 a R$ 10 o rolo</td></tr>
+          <tr><td>Fita de reforço (marrom 45mm)</td><td>Caixas pesadas ou irregulares</td><td>R$ 8 a R$ 15 o rolo</td></tr>
+          <tr><td>Sacola plástica interna</td><td>Produtos que podem vazar</td><td>R$ 0,05 a R$ 0,15 por unidade</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOGÍSTICA ─── -->
+<section id="logistica">
+  <div class="sec-header">
+    <span class="sec-num">06</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Entrega</div>
+      <h2 class="sec-titulo">Logística e <em>Fretes</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Um produto que chega quebrado ou atrasado destrói a avaliação da loja. Um frete caro impede a conversão. Esse é o ponto de equilíbrio que você precisa encontrar.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Transportadoras recomendadas</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Transportadora</th><th>Ideal para</th><th>Atenção</th></tr></thead>
+        <tbody>
+          <tr><td>Correios (PAC / SEDEX)</td><td>Até 30 kg; cobertura nacional total</td><td>Competitivo até 5 kg; acima disso fica caro</td></tr>
+          <tr><td>Jadlog</td><td>SP e Sul; bom para volumes</td><td>Melhores preços com contrato</td></tr>
+          <tr><td>J&T Express</td><td>Custo baixo; crescendo no Brasil</td><td>Cobertura limitada em algumas regiões</td></tr>
+          <tr><td>Total Express</td><td>Integração Mercado Livre</td><td>Indicada para quem usa ML como canal</td></tr>
+          <tr><td>TNT / Fedex</td><td>Equipamentos acima de 30 kg</td><td>Custo alto; usar para itens de alto valor</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Estratégias de frete</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-topo">Frete grátis por ticket mínimo</div>
+        <div class="card-titulo">Aumenta o ticket médio</div>
+        <div class="card-corpo">Ex.: grátis acima de R$ 150. Você absorve o custo no preço. Funciona bem para itens Categoria A de baixo peso.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Frete fixo</div>
+        <div class="card-titulo">Simplifica a decisão</div>
+        <div class="card-corpo">Ex.: R$ 19,90 para todo o Brasil. Você absorve a diferença por CEP. Bom para produtos de peso similar.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Frete real</div>
+        <div class="card-titulo">Mais transparente</div>
+        <div class="card-corpo">Calculado automaticamente pela plataforma via API dos Correios/transportadora. O cliente paga o custo real.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Retirada no local</div>
+        <div class="card-titulo">Custo zero de entrega</div>
+        <div class="card-corpo">Cliente busca no galpão em Itatiba. Ótimo para clientes da região que compram volumes maiores.</div>
+      </div>
+    </div>
+    <div class="alerta vermelho">
+      <div class="alerta-label">Produtos pesados</div>
+      Para marteletes e guinchos Menegotti, sempre calcule se o frete grátis é viável. Um martelete de 18 kg enviado de SP para o NE pode custar R$ 180 ou mais.
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Aerossóis como objetos perigosos</div>
+    <ul class="lista">
+      <li>Aerossóis inflamáveis (sprays Tekbond) não podem ser enviados por avião — restrição ANAC</li>
+      <li>Transportadoras rodoviárias aceitam com declaração correta na NF</li>
+      <li>A embalagem deve seguir a norma ABNT NBR 7500 para identificação</li>
+      <li>Nunca envie aerossóis por transporte aéreo — é infração grave com multa</li>
+    </ul>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Política de devolução (CDC)</div>
+    <p>O Código de Defesa do Consumidor garante 7 dias corridos de arrependimento após o recebimento em compras online — independente do motivo.</p>
+    <ul class="lista">
+      <li>Produtos com defeito: custo da reversa é sempre do lojista</li>
+      <li>Arrependimento: a lei não obriga o lojista a pagar a reversa, mas absorver melhora a avaliação</li>
+      <li>Adesivos e produtos de higiene abertos não podem ser devolvidos por arrependimento</li>
+      <li>Documente sempre a postagem com código de rastreio para contestar chargebacks</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ─── PLATAFORMA ─── -->
+<section id="plataforma">
+  <div class="sec-header">
+    <span class="sec-num">07</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Tecnologia</div>
+      <h2 class="sec-titulo">Plataforma e <em>ERP</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">A plataforma é a espinha dorsal da operação. Define como a loja funciona, como integra com marketplaces e como o estoque é gerenciado.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Plataformas mais usadas no Brasil</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Plataforma</th><th>Mensalidade</th><th>Pontos fortes</th><th>Limitações</th></tr></thead>
+        <tbody>
+          <tr><td>Nuvemshop</td><td>R$ 0 a R$ 399/mês</td><td>Fácil de usar; boa integração ML; custo-benefício inicial</td><td>Recursos avançados só nos planos pagos</td></tr>
+          <tr><td>Shopify</td><td>USD 29 a 299/mês</td><td>Ecossistema robusto; apps; internacional</td><td>Custo em dólar; suporte em inglês</td></tr>
+          <tr><td>Tray</td><td>R$ 99 a R$ 699/mês</td><td>Forte no Brasil; integrações com marketplaces</td><td>Interface pode ser complexa</td></tr>
+          <tr><td>WooCommerce</td><td>Grátis + hospedagem</td><td>Flexível; sem taxa de transação</td><td>Exige mais conhecimento técnico</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">O que a plataforma precisa ter para ferramentas</div>
+    <ul class="lista">
+      <li><strong>Variações de produto:</strong> tensão (127V / 220V), peso, tamanho — essencial para o catálogo Menegotti</li>
+      <li><strong>Integração com marketplaces:</strong> Mercado Livre, Amazon, Shopee sem retrabalho manual</li>
+      <li><strong>Cálculo de frete em tempo real:</strong> integração com Correios e transportadoras via API</li>
+      <li><strong>Emissão de NF-e:</strong> nativa ou via integração com Tiny ERP ou Bling</li>
+      <li><strong>Gestão de estoque:</strong> atualização automática entre a loja e os marketplaces</li>
+      <li><strong>Rastreamento de pedidos:</strong> cliente acompanha o envio sem precisar ligar para você</li>
+    </ul>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">ERPs recomendados</div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-topo">Bling</div>
+        <div class="card-titulo">R$ 27 a R$ 279/mês</div>
+        <div class="card-corpo">Integra com mais de 30 plataformas; emite NF-e; melhor relação custo-benefício para lojas pequenas.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Tiny ERP</div>
+        <div class="card-titulo">R$ 149 a R$ 399/mês</div>
+        <div class="card-corpo">Robusto; muito usado no segmento de ferramentas e vendas B2B. Boa gestão de orçamentos.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Omie</div>
+        <div class="card-titulo">R$ 0 a R$ 499/mês</div>
+        <div class="card-corpo">Plano gratuito inicial; bom para quem está começando e quer controle financeiro integrado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PAGAMENTO ─── -->
+<section id="pagamento">
+  <div class="sec-header">
+    <span class="sec-num">08</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Financeiro</div>
+      <h2 class="sec-titulo">Pagamentos e <em>Antifraude</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Aceitar pagamento é simples. Aceitar com segurança e sem perder dinheiro em chargebacks exige atenção — especialmente para ferramentas de alto valor.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Gateways de pagamento</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Gateway</th><th>Taxa crédito</th><th>Destaque</th></tr></thead>
+        <tbody>
+          <tr><td>Mercado Pago</td><td>~4,98%</td><td>Integrado ao Mercado Livre; reconhecido pelo cliente</td></tr>
+          <tr><td>PagSeguro</td><td>3,79% a 4,99%</td><td>Boa cobertura; parcelamento em até 12x</td></tr>
+          <tr><td>Pagar.me (Stone)</td><td>1,99% + R$ 0,09 (débito)</td><td>Robusto para lojas maiores; antifraude incluso</td></tr>
+          <tr><td>Cielo</td><td>Negociação por volume</td><td>Preço melhora com escala</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="subsec">
+      <div class="subsec-titulo">Pix e Boleto</div>
+      <ul class="lista">
+        <li><strong>Pix:</strong> taxa zero ou próxima de zero; liquidação em segundos; crescente preferência no Brasil</li>
+        <li><strong>Desconto para Pix à vista:</strong> incentiva pagamento imediato e reduz custo de gateway</li>
+        <li><strong>Boleto:</strong> custo de R$ 2 a R$ 4 por gerado; alta taxa de abandono; útil para B2B</li>
+      </ul>
+    </div>
+    <div class="subsec">
+      <div class="subsec-titulo">Prevenção a Chargebacks</div>
+      <ul class="lista">
+        <li>Ative o antifraude nativo do gateway</li>
+        <li>Pedidos acima de R$ 500: análise manual ou confirmação por telefone</li>
+        <li>Endereço de entrega diferente do cadastro — sinal de alerta</li>
+        <li>Nunca libere sem aprovação da análise de fraude</li>
+        <li>Guarde código de rastreio para contestar "não recebi"</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ATENDIMENTO ─── -->
+<section id="atendimento">
+  <div class="sec-header">
+    <span class="sec-num">09</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Pós-venda</div>
+      <h2 class="sec-titulo">Atendimento ao <em>Cliente</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">No e-commerce de ferramentas, o atendimento técnico é um diferencial competitivo real. O cliente tem dúvidas antes de comprar e precisa de suporte depois.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Canais essenciais</div>
+    <div class="tabela-wrap">
+      <table>
+        <thead><tr><th>Canal</th><th>Custo</th><th>Uso ideal</th></tr></thead>
+        <tbody>
+          <tr><td>WhatsApp Business</td><td>Grátis</td><td>Atendimento rápido; fotos e vídeos; catálogo de produtos</td></tr>
+          <tr><td>Chat no site (JivoChat, Tawk)</td><td>Grátis a R$ 30/mês</td><td>Conversão em tempo real; cliente já está na loja</td></tr>
+          <tr><td>E-mail</td><td>Grátis (ou R$ 30 Google Workspace)</td><td>Casos complexos; garantia; formalização</td></tr>
+          <tr><td>DMs redes sociais</td><td>Grátis</td><td>Responder em até 2 horas nos dias úteis</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Dúvidas técnicas — seu grande diferencial</div>
+    <p>Clientes que compram ferramentas perguntam: <em>"Qual disco usar para porcelanato 90x90?"</em> ou <em>"A furadeira MFI-750W aguenta uso pesado diário?"</em>. Quem sabe responder converte muito mais.</p>
+    <ul class="lista">
+      <li>FAQ técnico nas páginas de produto com as dúvidas mais comuns</li>
+      <li>Vídeos curtos de 60s mostrando o produto em uso — Reels converte bem</li>
+      <li>Compatibilidade de acessórios (mandril, disco, bateria) nas descrições</li>
+      <li>Manuais dos fabricantes disponíveis para download no site</li>
+    </ul>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Garantia e assistência técnica Menegotti</div>
+    <ul class="lista">
+      <li>Garantia de fábrica: em geral 12 meses — deixe isso claro na página de produto</li>
+      <li>Identifique a rede de assistência técnica autorizada Menegotti no Brasil</li>
+      <li>Ferramentas com dano por mau uso: exija laudo da assistência antes de aceitar devolução</li>
+      <li>No Mercado Livre: a plataforma tem regras próprias de mediação — estude antes de vender lá</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ─── MARKETING ─── -->
+<section id="marketing">
+  <div class="sec-header">
+    <span class="sec-num">10</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Aquisição</div>
+      <h2 class="sec-titulo">Marketing e <em>Tráfego</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Loja no ar sem tráfego é vitrine de costas para a rua. Você precisa de uma estratégia de aquisição de clientes desde o primeiro dia.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Google Shopping — prioridade #1</div>
+    <p>Quem busca <em>"cola de contato 750g"</em> ou <em>"furadeira de impacto 750W"</em> no Google já está pronto para comprar. Aparecer no Shopping é o canal de maior ROI para o seu segmento.</p>
+    <ul class="lista">
+      <li>Crie conta no Google Merchant Center e faça o upload do catálogo</li>
+      <li>A plataforma gera o feed automaticamente — configure títulos e descrições corretamente</li>
+      <li>Título ideal: "Cola de Contato Tekbond 750g — Alta Resistência" (marca + produto + benefício)</li>
+      <li>Mais orçamento para produtos Categoria A; menos para Categoria C</li>
+    </ul>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Canais por objetivo</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-topo">Meta Ads</div>
+        <div class="card-titulo">Conversão + Remarketing</div>
+        <div class="card-corpo">Impactar quem visitou mas não comprou. Públicos semelhantes (Lookalike) para encontrar novos clientes. Vídeos do produto em uso convertem mais que fotos estáticas.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">SEO</div>
+        <div class="card-titulo">Tráfego orgânico a longo prazo</div>
+        <div class="card-corpo">Nome completo no título da página. Descrições únicas por produto. Blog com conteúdo técnico: "Como escolher o disco de corte certo" atrai cliente na fase de pesquisa.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Marketplaces</div>
+        <div class="card-titulo">ML, Amazon, Shopee</div>
+        <div class="card-corpo">Amplia o alcance sem retrabalho via ERP integrado. Comissões: ML 12-18%, Amazon 8-15%, Shopee 8-12%.</div>
+      </div>
+      <div class="card">
+        <div class="card-topo">Redes Sociais</div>
+        <div class="card-titulo">Conteúdo técnico</div>
+        <div class="card-corpo">Instagram: Reels com dicas rápidas de uso. YouTube: tutoriais do tipo "Como usar o Cortador TEC-90". WhatsApp: grupo de clientes recorrentes para ofertas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MÉTRICAS ─── -->
+<section id="metricas">
+  <div class="sec-header">
+    <span class="sec-num">11</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Inteligência</div>
+      <h2 class="sec-titulo">Métricas e <em>Gestão</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">O que não se mede não se melhora. Acompanhe esses indicadores semanalmente nos primeiros 3 meses.</p>
+
+  <div class="subsec">
+    <div class="subsec-titulo">KPIs de venda</div>
+    <div class="metricas-grid">
+      <div class="metrica-card">
+        <div class="metrica-nome">Ticket Médio</div>
+        <div class="metrica-meta">Acima de R$ 120</div>
+        <div class="metrica-desc">Garante margem após frete para a maioria dos produtos</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-nome">Taxa de Conversão</div>
+        <div class="metrica-meta">1% a 3%</div>
+        <div class="metrica-desc">No início. Com otimização chega a 3-5%. Abaixo de 1% requer ação imediata.</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-nome">Abandono de Carrinho</div>
+        <div class="metrica-meta">Abaixo de 70%</div>
+        <div class="metrica-desc">Acima disso: problema no checkout, preço de frete ou forma de pagamento.</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-nome">CAC</div>
+        <div class="metrica-meta">Abaixo de 30%</div>
+        <div class="metrica-desc">Custo de aquisição deve ser menor que 30% do valor do primeiro pedido.</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-nome">LTV / CAC</div>
+        <div class="metrica-meta">Acima de 3x</div>
+        <div class="metrica-desc">O cliente precisa valer pelo menos 3 vezes o custo de trazê-lo.</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-nome">OTD</div>
+        <div class="metrica-meta">Acima de 95%</div>
+        <div class="metrica-desc">On Time Delivery: % de pedidos entregues no prazo prometido.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-titulo">Financeiro básico</div>
+    <div class="formula">Margem = Preço venda − Custo produto − Comissão marketplace − Frete − Gateway − DAS</div>
+    <ul class="lista">
+      <li>Separe finanças da empresa das pessoais desde o dia 1 — conta PJ exclusiva</li>
+      <li>Reserve 10% do faturamento bruto para impostos e 5% para devoluções/perdas</li>
+      <li>Fluxo de caixa semanal nos primeiros 6 meses</li>
+      <li>Contador: R$ 150 a R$ 400/mês — o custo se paga em impostos evitados</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ─── CHECKLIST ─── -->
+<section id="checklist">
+  <div class="sec-header">
+    <span class="sec-num">12</span>
+    <div class="sec-titulo-wrap">
+      <div class="sec-cat">Lançamento</div>
+      <h2 class="sec-titulo">Checklist de <em>Go-Live</em></h2>
+    </div>
+  </div>
+  <p class="sec-lead">Use esta lista antes de abrir a loja para o público. Imprima e vá marcando conforme conclui cada item.</p>
+
+  <div class="split">
+    <div>
+      <div class="checklist-grupo">
+        <div class="checklist-titulo">Jurídico e Fiscal</div>
+        <div class="check-item"><div class="check-box"></div>CNPJ aberto e ativo</div>
+        <div class="check-item"><div class="check-box"></div>Inscrição Estadual obtida</div>
+        <div class="check-item"><div class="check-box"></div>Regime tributário definido com contador</div>
+        <div class="check-item"><div class="check-box"></div>Certificado digital (e-CNPJ) emitido</div>
+        <div class="check-item"><div class="check-box"></div>Emissor de NF-e configurado (Bling, Tiny ou outro)</div>
+        <div class="check-item"><div class="check-box"></div>Política de Privacidade (LGPD) publicada</div>
+        <div class="check-item"><div class="check-box"></div>Termos de uso e política de troca publicados</div>
+      </div>
+
+      <div class="checklist-grupo">
+        <div class="checklist-titulo">Estoque e Produto</div>
+        <div class="check-item"><div class="check-box"></div>Catálogo cadastrado com fotos, descrição e NCM</div>
+        <div class="check-item"><div class="check-box"></div>Fornecedores com prazo de entrega confirmado</div>
+        <div class="check-item"><div class="check-box"></div>Estoque inicial separado e etiquetado</div>
+        <div class="check-item"><div class="check-box"></div>Ponto de reposição definido para itens Categoria A</div>
+        <div class="check-item"><div class="check-box"></div>Armazenamento de produtos químicos adequado</div>
+      </div>
+
+      <div class="checklist-grupo">
+        <div class="checklist-titulo">Embalagem e Logística</div>
+        <div class="check-item"><div class="check-box"></div>Caixas dos tamanhos corretos em estoque</div>
+        <div class="check-item"><div class="check-box"></div>Materiais de proteção disponíveis</div>
+        <div class="check-item"><div class="check-box"></div>Contrato/cadastro com transportadora ativo</div>
+        <div class="check-item"><div class="check-box"></div>Política de frete definida</div>
+        <div class="check-item"><div class="check-box"></div>SLA de envio documentado</div>
+        <div class="check-item"><div class="check-box"></div>Política de devolução publicada</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="checklist-grupo">
+        <div class="checklist-titulo">Plataforma e Pagamento</div>
+        <div class="check-item"><div class="check-box"></div>Plataforma configurada e testada</div>
+        <div class="check-item"><div class="check-box"></div>Gateway integrado e testado (pedido teste feito)</div>
+        <div class="check-item"><div class="check-box"></div>Pix configurado e funcionando</div>
+        <div class="check-item"><div class="check-box"></div>Cálculo de frete funcionando no checkout</div>
+        <div class="check-item"><div class="check-box"></div>Integrações com marketplace configuradas</div>
+        <div class="check-item"><div class="check-box"></div>Certificado SSL ativo no site (HTTPS)</div>
+      </div>
+
+      <div class="checklist-grupo">
+        <div class="checklist-titulo">Marketing e Atendimento</div>
+        <div class="check-item"><div class="check-box"></div>WhatsApp Business configurado com catálogo</div>
+        <div class="check-item"><div class="check-box"></div>Google Merchant Center ativo com feed</div>
+        <div class="check-item"><div class="check-box"></div>Meta Business Manager configurado</div>
+        <div class="check-item"><div class="check-box"></div>Pixel do Facebook instalado no site</div>
+        <div class="check-item"><div class="check-box"></div>Google Analytics 4 configurado</div>
+        <div class="check-item"><div class="check-box"></div>Respostas automáticas configuradas</div>
+        <div class="check-item"><div class="check-box"></div>FAQ técnico publicado nas páginas de produto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-final">
+    <h2>Agora é hora de <em style="color:var(--terracota);font-style:italic;">agir.</em></h2>
+    <p>Não espere estar 100% pronto para lançar. Uma loja com 50 produtos bem cadastrados e entrega funcionando bate uma loja com 500 produtos em desenvolvimento.</p>
+    <div style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;">
+      <div class="meta-item">
+        <span class="meta-valor">9 sem.</span>
+        <span class="meta-label">Da reunião ao Go-Live</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-valor">Itatiba</span>
+        <span class="meta-label">Base de operação</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-valor">Vira-Lata Lab</span>
+        <span class="meta-label">Projeto e execução</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.main -->
+
+<button class="btn-print" onclick="window.print()">Imprimir / Salvar PDF</button>
+
+<script>
+// Highlight nav item on scroll
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('ativo'));
+      const match = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (match) match.classList.add('ativo');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
