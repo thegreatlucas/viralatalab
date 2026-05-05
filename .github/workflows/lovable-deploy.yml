@@ -27,3 +27,4 @@ jobs:
             .github/**
             README.md
             .git/**
+            ebook_pegmaq.html
