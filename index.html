@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wmckwrwofk");
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vira-Lata Lab — Marketing descomplicado</title>
@@ -873,10 +880,15 @@ nav {
 }
 .fundador-card:hover { transform: translateY(-4px); }
 .fundador-foto {
-  width: 100%; aspect-ratio: 4/3;
+  width: 100%; aspect-ratio: 1/1;
   background: linear-gradient(135deg, var(--cafe2) 0%, #4a2d15 100%);
   position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+}
+.fundador-foto img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
 }
 .fundador-foto-placeholder {
   display: flex; flex-direction: column; align-items: center; gap: 1rem;
@@ -1562,21 +1574,18 @@ footer {
 
     <div class="fundador-card reveal reveal-delay-1">
       <div class="fundador-foto">
-        <div class="fundador-foto-placeholder">
-          <div class="foto-initials">S1</div>
-          <span class="foto-hint">Mockup Sócio 1</span>
-        </div>
-        <div class="foto-img-note">// INSERIR FOTO DO SÓCIO 1 AQUI //</div>
+        <img src="lucas.jpg" alt="Lucas, co-fundador da Vira-Lata Lab">
       </div>
       <div class="fundador-info">
-        <div class="fundador-nome">Nome do Sócio 1</div>
-        <div class="fundador-cargo">Co-fundador · Estratégia & Crescimento</div>
+        <div class="fundador-nome">Lucas</div>
+        <div class="fundador-cargo">Co-fundador · E-commerce & Operações</div>
         <p class="fundador-bio">
-          Breve biografia aqui — de onde veio, o que já fez, por que montou a Vira-Lata Lab. Pode ser direto ao ponto: sem frescura, sem currículo pomposo.
+          10 anos metido em todos os cantos do e-commerce — do estoque à campanha, da planilha ao checkout. Obcecado por aprender coisas novas e incomodado com o marketing que parece mais glossário do que resultado. Aqui, a gente fala o que faz, não o que soa bonito em apresentação.
         </p>
         <div class="fundador-tags">
           <span class="f-tag">E-commerce</span>
-          <span class="f-tag">CRM</span>
+          <span class="f-tag">Operações</span>
+          <span class="f-tag">Marketing</span>
           <span class="f-tag">Estratégia</span>
         </div>
       </div>
