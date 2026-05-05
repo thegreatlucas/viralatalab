@@ -1,4 +1,4 @@
-name: "Deploy para stable-website"
+name: "Deploy para KingHost via FTP"
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   deploy:
@@ -16,10 +16,14 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: "Deploy arquivos estáticos"
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: "Deploy via FTP"
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: stable-website
-          folder: .
-          clean: true
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/
+          exclude: |
+            .github/**
+            README.md
+            .git/**
