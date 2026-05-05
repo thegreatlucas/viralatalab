@@ -1191,9 +1191,17 @@ footer {
   .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
 
   #hero { grid-template-columns: 1fr; padding-top: 5rem; min-height: auto; }
-  .hero-left { padding: 4rem 1.5rem 3rem; }
+  .hero-left { padding: 7rem 1.5rem 3rem; justify-content: flex-start; }
   .hero-right { padding: 2rem 1.5rem 4rem; justify-content: flex-start; }
   .hero-big-word { font-size: 3.5rem; text-align: left; }
+  .hero-tag {
+    position: static;
+    writing-mode: horizontal-tb;
+    margin-top: 1.5rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    opacity: 0.4;
+  }
   
   #sobre { grid-template-columns: 1fr; min-height: auto; }
   .sobre-left, .sobre-right { padding: 4rem 1.5rem; border-right: none; }
